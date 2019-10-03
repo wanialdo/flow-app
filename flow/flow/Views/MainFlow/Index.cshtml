@@ -1,0 +1,159 @@
+﻿@model IEnumerable<flow.Models.Entities.MainFlow>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IDictionary<string, string> scriptFinal = new Dictionary<string, string>();
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-right">
+                        <a href="@Url.Action("Create")" class="btn btn-primary">Create &raquo;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @{
+                        var itematual = "";
+                        var divcounter = 4;
+                        var linhaatual = "";
+
+                        foreach (var item in Model)
+                        {
+                            if (!itematual.Equals(item.FlowInitStatus.Description))
+                            {
+                                itematual = item.FlowInitStatus.Description;
+                                linhaatual = "line" + item.FlowInitStatusID.ToString();
+
+                                divcounter = 0;
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center"><i class="fa fa-arrow-circle-down blueclr"></i></div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <span class="float-left btn circleBox circleBoxBlue">@item.StepNumber</span>
+                                        <h5>
+                                            <strong>@Html.DisplayFor(modelItem => item.Responsible)</strong>
+                                            :::
+                                            <strong>@item.FlowInitStatus.Description</strong>
+                                        </h5>
+                                        <div class="row text-center" id="@linhaatual"></div>
+                                    </div>
+                                </div>
+                            }
+
+                            string formato = "success";
+                            string destino = "arrow-down";
+                            if (item.ActionName.Contains("Return"))
+                            {
+                                formato = "warning";
+                                destino = "arrow-up";
+                            }
+                            else if (item.ActionName.Contains("Block"))
+                            {
+                                formato = "warning";
+                                destino = "arrow-up";
+                            }
+                            else if (item.ActionName.Contains("Cancel"))
+                            {
+                                formato = "danger";
+                                destino = "circle";
+                            }
+
+                            divcounter++;
+
+                            var nomescript = linhaatual + divcounter + DateTime.Now.Second + DateTime.Now.Millisecond;
+
+                            scriptFinal.Add(nomescript, "$(\"#" + linhaatual + "\").append(\"<div class='col-md-3'>Até " + @item.MaxAnalisysPeriod + " dias<br /><i class='fa fa-" + @destino + " blueclr'>"
+                                            + "</i><span class='btn btn-" + @formato + "'>" + @item.ActionName + "</span>"
+                                            + "<i class='fa fa-" + @destino + " blueclr'></i><br /><strong>" + @item.FlowEndStatus.Description + "</strong><div class='row'><div class='col-lg-12 text-center'>"
+                                            + "<a href='" + Url.Action("Edit", new { id = item.ID }) + "' class='greenclr' alt='Editar' title='Editar o Evento'><i class='fa fa-edit'></i></a>"
+                                         + "&nbsp;&nbsp;<a href='" + Url.Action("Delete", new { id = item.ID }) + "' class='redclr' alt='Editar' title='Editar o Evento' onclick='confirmar()'><i class='fa fa-trash'></i></a>"
+                                        + "</div></div></div>\")");
+                        }
+
+                        <hr />
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="mynetwork" style="width:100%;height:800px;"></div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    @{
+        foreach (KeyValuePair<string, string> parScript in scriptFinal)
+        {
+            <script>
+
+                $(document).ready(function () {
+                    @Html.Raw(parScript.Value);
+                });
+            </script>
+        }
+
+        <script>
+            function confirmar() {
+                return confirm('Confirma a Exclusão desse item?');
+            }
+        </script>
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("a[id^= \'" + "ddConfiguracaoHref" + "\']").trigger('click');
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        // create an array with nodes
+        var nodes = new vis.DataSet(@Html.Raw(ViewBag.ViewElementos));
+
+        // create an array with edges
+        var edges = new vis.DataSet(@Html.Raw(ViewBag.ViewLigacoes));
+
+        // create a network
+        var container = document.getElementById('mynetwork');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {
+            edges: {
+                widthConstraint: { minimum: 150 }
+            },
+            nodes: {
+                shape: 'box',
+                margin: 10,
+                widthConstraint: { minimum: 150, maximum: 300 }
+            },
+            physics: {
+                barnesHut: { avoidOverlap: 0.35 },
+                enabled: true
+            }
+        };
+        var network = new vis.Network(container, data, options);
+    </script>
+}

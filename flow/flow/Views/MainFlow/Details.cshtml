@@ -1,0 +1,67 @@
+﻿@model flow.Models.Entities.MainFlow
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MainFlow</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FlowEndStatus.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlowEndStatus.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlowInitStatus.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlowInitStatus.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoGrupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoGrupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoAcao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoAcao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxAnalisysPeriod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxAnalisysPeriod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StepNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StepNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

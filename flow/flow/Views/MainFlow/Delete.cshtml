@@ -1,0 +1,73 @@
+﻿@model flow.Models.Entities.MainFlow
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MainFlow</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FlowEndStatus.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlowEndStatus.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlowInitStatus.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlowInitStatus.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoGrupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoGrupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoAcao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoAcao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxAnalisysPeriod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxAnalisysPeriod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StepNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StepNumber)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
